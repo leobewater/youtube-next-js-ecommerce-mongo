@@ -19,9 +19,9 @@ export default function ProductScreen() {
     const addToCartHandler = () => {
         const existItem = state.cart.cartItems.find(x => x.slug === product.slug);
         const quantity = existItem ? existItem.quantity + 1 : 1;
-        
+
         // fire event when adding item to cart
-        dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity: quantity } });
+        dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
     }
 
     return (
