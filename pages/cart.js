@@ -5,8 +5,9 @@ import { XCircleIcon } from '@heroicons/react/24/outline';
 import Layout from '../components/Layout';
 import { Store } from '../utils/Store';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 
-export default function CartScreen() {
+function CartScreen() {
   const { state, dispatch } = useContext(Store);
   const router = useRouter();
   const {
@@ -87,8 +88,8 @@ export default function CartScreen() {
             <ul>
               <li>
                 <div className="pb-3 text-xl">
-                  Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}):
-                  ${cartItems.reduce((a, c) => a + c.quantity * c.price, 0)}
+                  Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}): $
+                  {cartItems.reduce((a, c) => a + c.quantity * c.price, 0)}
                 </div>
               </li>
               <li>
@@ -106,3 +107,5 @@ export default function CartScreen() {
     </Layout>
   );
 }
+
+export default dynamic(() => Promise.resolve(CartScreen), { ssr: false });
