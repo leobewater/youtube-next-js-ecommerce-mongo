@@ -10,7 +10,6 @@ export default function Home() {
           <ProductItem product={product} key={product.slug} />
         ))}
       </div>
-
     </Layout>
   )
 }
