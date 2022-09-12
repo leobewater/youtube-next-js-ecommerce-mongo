@@ -20,6 +20,12 @@ export default function ProductScreen() {
         const existItem = state.cart.cartItems.find(x => x.slug === product.slug);
         const quantity = existItem ? existItem.quantity + 1 : 1;
 
+        // check stock amount
+        if (product.countInStock < quantity) {
+            alert('Sorry. Product is out of stock!');
+            return
+        }
+
         // fire event when adding item to cart
         dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
     }
