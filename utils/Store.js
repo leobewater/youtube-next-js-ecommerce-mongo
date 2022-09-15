@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 
 export const Store = createContext();
 
-// get saved items from cookie otherwise use empty array
+// get saved items and shipping address from cookie otherwise use empty array
 const initialState = {
   cart: Cookies.get('cart')
     ? JSON.parse(Cookies.get('cart'))
