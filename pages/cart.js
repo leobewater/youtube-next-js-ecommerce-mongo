@@ -1,12 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import axios from 'axios';
 import { useContext } from 'react';
 import { XCircleIcon } from '@heroicons/react/24/outline';
 import Layout from '../components/Layout';
 import { Store } from '../utils/Store';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
+import axios from 'axios';
 import { toast } from 'react-toastify';
 
 function CartScreen() {
@@ -28,11 +28,12 @@ function CartScreen() {
 
     // check stock amount
     if (data.countInStock < quantity) {
-      toast.error('Sorry. Product is out of stock!');
-      return;
+      return toast.error('Sorry. Product is out of stock');
     }
 
     dispatch({ type: 'CART_ADD_ITEM', payload: { ...item, quantity } });
+    
+    toast.success('Product updated in the cart');
   };
 
   return (
