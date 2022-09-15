@@ -1,3 +1,4 @@
+import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -6,6 +7,7 @@ import Layout from '../../components/Layout';
 import Product from '../../models/Product';
 import db from '../../utils/db';
 import { Store } from '../../utils/Store';
+import { toast } from 'react-toastify';
 
 export default function ProductScreen({ product }) {
   const { state, dispatch } = useContext(Store);
@@ -19,11 +21,13 @@ export default function ProductScreen({ product }) {
   const addToCartHandler = async () => {
     const existItem = state.cart.cartItems.find((x) => x.slug === product.slug);
     const quantity = existItem ? existItem.quantity + 1 : 1;
+
+    // fetch the product id to the database for live price and stock data
     const { data } = await axios.get(`/api/products/${product._id}`);
 
     // check stock amount
-    if (product.countInStock < quantity) {
-      alert('Sorry. Product is out of stock!');
+    if (data.countInStock < quantity) {
+      toast.error('Sorry. Product is out of stock!');
       return;
     }
 
@@ -31,7 +35,7 @@ export default function ProductScreen({ product }) {
     dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
 
     // redirect to cart after item being added
-    router.push('/cart');
+    // router.push('/cart');
   };
 
   return (
