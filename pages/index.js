@@ -18,8 +18,8 @@ export default function Home({ products }) {
 // load products on server side
 export async function getServerSideProps() {
   await db.connect();
-
   const products = await Product.find().lean();
+  await db.disconnect();
 
   return {
     props: {
