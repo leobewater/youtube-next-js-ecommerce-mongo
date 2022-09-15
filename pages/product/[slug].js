@@ -13,7 +13,7 @@ export default function ProductScreen({ product }) {
 
   //   const product = data.products.find((item) => item.slug === slug);
   if (!product) {
-    return <div>Product Not Found</div>;
+    return <Layout title="Product Not Found">Product Not Found</Layout>;
   }
 
   const addToCartHandler = () => {
