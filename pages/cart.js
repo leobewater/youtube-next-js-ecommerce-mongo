@@ -8,8 +8,8 @@ import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 
 function CartScreen() {
-  const { state, dispatch } = useContext(Store);
   const router = useRouter();
+  const { state, dispatch } = useContext(Store);
   const {
     cart: { cartItems },
   } = state;
@@ -36,7 +36,7 @@ function CartScreen() {
             <table className="min-w-full ">
               <thead className="border-b">
                 <tr>
-                  <th className="px-5 text-left">Item</th>
+                  <th className="p-5 text-left">Item</th>
                   <th className="p-5 text-right">Quantity</th>
                   <th className="p-5 text-right">Price</th>
                   <th className="p-5">Action</th>
@@ -94,8 +94,8 @@ function CartScreen() {
               </li>
               <li>
                 <button
-                  className="primary-button w-full"
                   onClick={() => router.push('login?redirect=/shipping')}
+                  className="primary-button w-full"
                 >
                   Checkout
                 </button>
