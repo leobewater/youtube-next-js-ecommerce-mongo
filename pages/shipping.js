@@ -1,24 +1,62 @@
+import React, { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import Cookies from 'js-cookie';
 import CheckoutWizard from '../components/CheckoutWizard';
 import Layout from '../components/Layout';
+import { Store } from '../utils/Store';
+import { useRouter } from 'next/router';
 
 function ShippingScreen() {
   const {
     handleSubmit,
     register,
     formState: { errors },
-    setValues,
-    getValues,
+    setValue,
   } = useForm();
 
-  const submitHandler = () => {};
+  const { state, dispatch } = useContext(Store);
+  const { cart } = state;
+  const { shippingAddress } = cart;
+  const router = useRouter();
+
+  // load previously saved shipping address from cookie
+  useEffect(() => {
+    setValue('fullName', shippingAddress.fullName);
+    setValue('address', shippingAddress.address);
+    setValue('city', shippingAddress.city);
+    setValue('postalCode', shippingAddress.postalCode);
+    setValue('country', shippingAddress.country);
+  }, [setValue, shippingAddress])
+  
+
+  const submitHandler = ({ fullName, address, city, postalCode, country }) => {
+    dispatch({
+      type: 'SAVE_SHIPPING_ADDRESS',
+      payload: { fullName, address, city, postalCode, country },
+    });
+
+    // save cart and address to cookie
+    Cookies.set(
+      'cart',
+      JSON.stringify({
+        ...cart,
+        shippingAddress: {
+          fullName,
+          address,
+          city,
+          postalCode,
+          country,
+        },
+      })
+    );
+  };
 
   return (
     <Layout title="Shipping Address">
       <CheckoutWizard activeStep={1} />
       <form
         className="mx-auto max-w-screen-md"
-        onClick={handleSubmit(submitHandler)}
+        onSubmit={handleSubmit(submitHandler)}
       >
         <h1 className="mb-4 text-xl">Shipping Address</h1>
 
@@ -55,7 +93,7 @@ function ShippingScreen() {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="address">City</label>
+          <label htmlFor="city">City</label>
           <input
             className="w-full"
             id="city"
@@ -74,7 +112,6 @@ function ShippingScreen() {
           <input
             className="w-full"
             id="postalCode"
-            autoFocus
             {...register('postalCode', {
               required: 'Please enter a postal code',
             })}
@@ -89,7 +126,6 @@ function ShippingScreen() {
           <input
             className="w-full"
             id="country"
-            autoFocus
             {...register('country', {
               required: 'Please enter a country',
             })}
@@ -107,3 +143,7 @@ function ShippingScreen() {
 }
 
 export default ShippingScreen;
+
+
+// set this as protected page
+ShippingScreen.auth = true;
