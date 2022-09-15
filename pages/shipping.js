@@ -26,7 +26,7 @@ function ShippingScreen() {
     setValue('city', shippingAddress.city);
     setValue('postalCode', shippingAddress.postalCode);
     setValue('country', shippingAddress.country);
-  }, [setValue, shippingAddress])
+  }, [setValue, shippingAddress]);
   
 
   const submitHandler = ({ fullName, address, city, postalCode, country }) => {
@@ -49,6 +49,8 @@ function ShippingScreen() {
         },
       })
     );
+
+    router.push('/payment');
   };
 
   return (
@@ -78,7 +80,6 @@ function ShippingScreen() {
           <input
             className="w-full"
             id="address"
-            autoFocus
             {...register('address', {
               required: 'Please enter an address',
               minLength: {
@@ -97,7 +98,6 @@ function ShippingScreen() {
           <input
             className="w-full"
             id="city"
-            autoFocus
             {...register('city', {
               required: 'Please enter a city',
             })}
