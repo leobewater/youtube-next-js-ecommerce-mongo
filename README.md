@@ -5,5 +5,5 @@ Source Code: ​​https://github.com/basir/next-tailwind-amazona
 Tech: NextJs, Tailwindcss, Mongo
 
 
-## To delete and seed users, go to the browser and visit
+## To delete and seed users & products, go to the browser and visit
 http://localhost:3000/api/seed
