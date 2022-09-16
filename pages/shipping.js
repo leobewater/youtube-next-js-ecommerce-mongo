@@ -142,8 +142,7 @@ function ShippingScreen() {
   );
 }
 
-export default ShippingScreen;
-
-
 // set this as protected page
 ShippingScreen.auth = true;
+
+export default ShippingScreen;

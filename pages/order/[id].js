@@ -1,8 +1,10 @@
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useReducer } from 'react';
+import { toast } from 'react-toastify';
 import Layout from '../../components/Layout';
 import { getError } from '../../utils/error';
 
@@ -144,7 +146,7 @@ function OrderScreen() {
               <ul>
                 <li>
                   <div className="mb-2 flex justify-between">
-                    <div>Item</div>
+                    <div>Items</div>
                     <div>${itemsPrice}</div>
                   </div>
                 </li>
@@ -175,7 +177,8 @@ function OrderScreen() {
   );
 }
 
-export default OrderScreen;
-
 // only authenticated user can access this page
 OrderScreen.auth = true;
+
+export default OrderScreen;
+

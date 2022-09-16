@@ -1,14 +1,14 @@
+import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
-import axios from 'axios';
 import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
 import { useContext, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import CheckoutWizard from '../components/CheckoutWizard';
 import Layout from '../components/Layout';
-import { Store } from '../utils/Store';
-import { toast } from 'react-toastify';
 import { getError } from '../utils/error';
-import Cookies from 'js-cookie';
+import { Store } from '../utils/Store';
 
 function PlaceOrderScreen() {
   const router = useRouter();
@@ -85,7 +85,7 @@ function PlaceOrderScreen() {
         <div className="grid md:grid-cols-4 md:gap-5">
           <div className="overflow-x-auto md:col-span-3">
             <div className="card p-5">
-              <h2 className="mb-2 text-xl">Shipping Address</h2>
+              <h2 className="mb-2 text-lg">Shipping Address</h2>
               <div>
                 {shippingAddress.fullName}, {shippingAddress.address},{' '}
                 {shippingAddress.city}, {shippingAddress.postalCode},{' '}
@@ -97,15 +97,15 @@ function PlaceOrderScreen() {
             </div>
 
             <div className="card p-5">
-              <h2 className="mb-2 text-xl">Payment Method</h2>
+              <h2 className="mb-2 text-lg">Payment Method</h2>
               <div>{paymentMethod}</div>
               <div>
                 <Link href="/payment">Edit</Link>
               </div>
             </div>
 
-            <div className="card p-5">
-              <h2 className="mb-2 text-xl">Order Items</h2>
+            <div className="card overflow-x-auto p-5">
+              <h2 className="mb-2 text-lg">Order Items</h2>
               <table className="min-w-full">
                 <thead className="border-b">
                   <tr>
@@ -117,7 +117,7 @@ function PlaceOrderScreen() {
                 </thead>
                 <tbody>
                   {cartItems.map((item) => (
-                    <tr key={item.slug} className="border-b">
+                    <tr key={item._id} className="border-b">
                       <td>
                         <Link href={`/product/${item.slug}`}>
                           <a className="flex items-center">
@@ -153,7 +153,7 @@ function PlaceOrderScreen() {
               <ul>
                 <li>
                   <div className="mb-2 flex justify-between">
-                    <div>Item</div>
+                    <div>Items</div>
                     <div>${itemsPrice}</div>
                   </div>
                 </li>
@@ -193,7 +193,8 @@ function PlaceOrderScreen() {
   );
 }
 
-export default PlaceOrderScreen;
-
 // only authenticated user can access this page
 PlaceOrderScreen.auth = true;
+
+export default PlaceOrderScreen;
+
