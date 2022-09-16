@@ -7,3 +7,7 @@ Tech: NextJs, Tailwindcss, Mongo
 
 ## To delete and seed users & products, go to the browser and visit
 http://localhost:3000/api/seed
+
+
+## Developer.paypal.com - to receive payment
+## Sandbox.paypal.com - to send payment as buyers/visitors
