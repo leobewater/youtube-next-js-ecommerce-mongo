@@ -140,8 +140,8 @@ export default function RegisterScreen() {
         </div>
 
         <div className="mb-4">
-          Don&apos;t have an account? &nbsp;
-          <Link href={`/register?redirect=${redirect || '/'}`}>Register</Link>
+          Already have an account? &nbsp;
+          <Link href={`/login?redirect=${redirect || '/'}`}>Login</Link>
         </div>
       </form>
     </Layout>
