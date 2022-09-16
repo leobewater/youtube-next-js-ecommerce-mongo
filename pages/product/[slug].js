@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import Layout from '../../components/Layout';
 import Product from '../../models/Product';
@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 
 export default function ProductScreen({ product }) {
   const { state, dispatch } = useContext(Store);
-  const router = useRouter();
+//   const router = useRouter();
 
   //   const product = data.products.find((item) => item.slug === slug);
   if (!product) {
