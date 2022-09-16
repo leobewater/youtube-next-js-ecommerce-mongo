@@ -1,36 +1,31 @@
-import Link from 'next/link';
+import axios from 'axios';
 import React, { useEffect } from 'react';
 import { signIn, useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import Layout from '../components/Layout';
 import { getError } from '../utils/error';
 import { toast } from 'react-toastify';
-import { useRouter } from 'next/router';
-import axios from 'axios';
 
-export default function RegisterScreen() {
+function ProfileScreen() {
   const { data: session } = useSession();
-  const router = useRouter();
-  const { redirect } = router.query;
-
-  // if user already logged, redirect when router, session, or redirect changes
-  useEffect(() => {
-    if (session?.user) {
-      router.push(redirect || '/');
-    }
-  }, [router, session, redirect]);
 
   const {
     handleSubmit,
     register,
     getValues,
+    setValue,
     formState: { errors },
   } = useForm();
 
+  // if user already logged, redirect when router, session, or redirect changes
+  useEffect(() => {
+    setValue('name', session.user.name);
+    setValue('email', session.user.email);
+  }, [session.user, setValue]);
+
   const submitHandler = async ({ name, email, password }) => {
-    // console.log(email, password);
     try {
-      await axios.post('/api/auth/signup', {
+      await axios.put('/api/auth/update', {
         name,
         email,
         password,
@@ -41,6 +36,8 @@ export default function RegisterScreen() {
         email,
         password,
       });
+
+      toast.success('Profile updated successfully');
       if (result.error) {
         toast.error(result.error);
       }
@@ -50,12 +47,12 @@ export default function RegisterScreen() {
   };
 
   return (
-    <Layout title="Create Account">
+    <Layout title="Profile">
       <form
         className="mx-auto max-w-screen-md"
         onSubmit={handleSubmit(submitHandler)}
       >
-        <h1 className="mb-4 text-xl">Create Account</h1>
+        <h1 className="mb-4 text-xl">Update Profile</h1>
 
         <div className="mb-4">
           <label htmlFor="name">Name</label>
@@ -136,14 +133,13 @@ export default function RegisterScreen() {
         </div>
 
         <div className="mb-4">
-          <button className="primary-button">Register</button>
-        </div>
-
-        <div className="mb-4">
-          Already have an account? &nbsp;
-          <Link href={`/login?redirect=${redirect || '/'}`}>Login</Link>
+          <button className="primary-button">Update Profile</button>
         </div>
       </form>
     </Layout>
   );
 }
+
+ProfileScreen.auth = true;
+
+export default ProfileScreen;
