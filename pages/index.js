@@ -20,8 +20,7 @@ export default function Home({ products }) {
 
     // check stock amount
     if (data.countInStock < quantity) {
-      toast.error('Sorry. Product is out of stock!');
-      return;
+      return toast.error('Sorry. Product is out of stock');
     }
 
     // fire event when adding item to cart

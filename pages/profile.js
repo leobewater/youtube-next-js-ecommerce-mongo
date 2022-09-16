@@ -96,7 +96,6 @@ function ProfileScreen() {
             className="w-full"
             id="password"
             {...register('password', {
-              required: 'Please enter a password',
               minLength: {
                 value: 6,
                 message: 'Password must be at least 6 characters long',
@@ -115,7 +114,6 @@ function ProfileScreen() {
             type="password"
             id="confirmPassword"
             {...register('confirmPassword', {
-              required: 'Please enter a confirm password',
               validate: (value) => value === getValues('password'),
               minLength: {
                 value: 6,

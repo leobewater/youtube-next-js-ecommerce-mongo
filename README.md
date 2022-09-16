@@ -12,4 +12,7 @@ http://localhost:3000/api/seed
 ## Developer.paypal.com - to receive payment
 ## Sandbox.paypal.com - to send payment as buyers/visitors
 
-Sanbox Paypal Testing cards not working
+Note:
+- updated user profile, doesn't get refreshed with new information
+- order # get created before asking for payment
+- Paypal sandbox test credit cards number don't work
