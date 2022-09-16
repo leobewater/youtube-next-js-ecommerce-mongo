@@ -9,22 +9,11 @@ const handler = async (req, res) => {
     return res.status(401).send('signin is required');
   }
 
-  const { user } = session;
-
   await db.connect();
-  
-  // create new order
-  const newOrder = new Order({
-    ...req.body,
-    user: user._id,
-  });
-
-  // save order
-  const order = await newOrder.save();
-
+  const order = await Order.findById(req.query.id);
   await db.disconnect();
 
-  res.status(201).send(order);
+  res.send(order);
 };
 
 export default handler;
