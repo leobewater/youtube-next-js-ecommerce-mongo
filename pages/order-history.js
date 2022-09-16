@@ -41,7 +41,8 @@ function OrderHistoryScreen() {
 
   return (
     <Layout title="Order History">
-      <h1>Order History</h1>
+      <h1 className='mb-4 text-xl'>Order History</h1>
+      
       {loading ? (
         <div>Loading...</div>
       ) : error ? (
@@ -56,7 +57,7 @@ function OrderHistoryScreen() {
                 <th className="p-5 text-left">TOTAL</th>
                 <th className="p-5 text-left">PAID</th>
                 <th className="p-5 text-left">DELIVERED</th>
-                <th className="p-5 text-left">ACTION</th>v
+                <th className="p-5 text-left">ACTION</th>
               </tr>
             </thead>
             <tbody>
