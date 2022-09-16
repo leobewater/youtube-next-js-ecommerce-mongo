@@ -1,3 +1,4 @@
+import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
@@ -25,6 +26,8 @@ function OrderScreen() {
   const { query } = useRouter();
   const orderId = query.id;
 
+  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+
   const [{ loading, error, order }, dispatch] = useReducer(reducer, {
     loading: true,
     order: {},
@@ -47,8 +50,25 @@ function OrderScreen() {
     // order id does not exist or request order id not equal fetched order id
     if (!order._id || (order._id && order._id !== orderId)) {
       fetchOrder();
+    } else {
+      // get the paypal client id and reset status
+      const loadPaypalScript = async () => {
+        const { data: clientId } = await axios.get('/api/keys/paypal');
+
+        paypalDispatch({
+          type: 'resetOptions',
+          value: {
+            'client-id': clientId,
+            currency: 'USD',
+          },
+        });
+
+        paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
+      };
+
+      loadPaypalScript();
     }
-  }, [order, orderId]);
+  }, [order, orderId, paypalDispatch]);
 
   const {
     shippingAddress,
@@ -168,6 +188,21 @@ function OrderScreen() {
                     <div>${totalPrice}</div>
                   </div>
                 </li>
+                {!isPaid && (
+                  <li>
+                    {isPending ? (
+                      <div>Loading...</div>
+                    ) : (
+                      <div className="w-full">
+                        <PayPalButtons
+                          createOrder={createOrder}
+                          onApprove={onApprove}
+                          onError={onError}
+                        />
+                      </div>
+                    )}
+                  </li>
+                )}
               </ul>
             </div>
           </div>
@@ -181,4 +216,3 @@ function OrderScreen() {
 OrderScreen.auth = true;
 
 export default OrderScreen;
-
